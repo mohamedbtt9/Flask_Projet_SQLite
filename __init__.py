@@ -48,6 +48,16 @@ def Readfiche(post_id):
     conn.close()
     # Rendre le template HTML et transmettre les données
     return render_template('read_data.html', data=data)
+    
+@app.route('/fiche_client/<string:post_id>')
+def Readfiche2(post_id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM clients WHERE id = ?', (post_id,))
+    data = cursor.fetchall()
+    conn.close()
+    # Rendre le template HTML et transmettre les données
+    return render_template('read_data.html', data=data)
 
 @app.route('/consultation/')
 def ReadBDD():
@@ -66,6 +76,8 @@ def formulaire_client():
 def enregistrer_client():
     nom = request.form['nom']
     prenom = request.form['prenom']
+
+    
 
     # Connexion à la base de données
     conn = sqlite3.connect('database.db')
