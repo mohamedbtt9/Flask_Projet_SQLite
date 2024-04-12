@@ -50,10 +50,10 @@ def Readfiche(post_id):
     return render_template('read_data.html', data=data)
     
 @app.route('/fiche_client/<string:client_name>')
-def Readfiche1(client_name):
+def Readfiche(client_name):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM clients WHERE nom = ?', (client_name,))
+    cursor.execute('SELECT * FROM clients WHERE UPPER(nom) = UPPER(?)', (client_name,))
     data = cursor.fetchall()
     conn.close()
     # Rendre le template HTML et transmettre les données
