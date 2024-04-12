@@ -51,7 +51,6 @@ def Readfiche(post_id):
     
 @app.route('/fiche_nom/<string:client_name>')
 def Readfiche1(client_name):
-    if request.authorization and request.authorization.username == 'user' and request.authorization.password == '12345':
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM clients WHERE UPPER(nom) = UPPER(?)', (client_name,))
@@ -59,8 +58,6 @@ def Readfiche1(client_name):
     conn.close()
     # Rendre le template HTML et transmettre les données
     return render_template('read_data.html', data=data)
-    else:
-        return jsonify({'message': 'Unauthorized access'}), 401
 
 
 @app.route('/consultation/')
