@@ -79,7 +79,6 @@ def enregistrer_client():
     prenom = request.form['prenom']
 
     
-
     # Connexion à la base de données
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
