@@ -53,7 +53,7 @@ def Readfiche(post_id):
 def Readfiche1(client_name):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM clients WHERE UPPER(nom) = UPPER(?)', (client_name,))
+    cursor.execute('SELECT * FROM clients WHERE UPPER(nom) || " " || UPPER(prénom) = UPPER(?)', (client_name,))
     data = cursor.fetchall()
     conn.close()
     # Rendre le template HTML et transmettre les données
