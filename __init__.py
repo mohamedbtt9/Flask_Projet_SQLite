@@ -1,12 +1,8 @@
-from flask import Flask, render_template_string, render_template, jsonify, request, redirect, url_for, session
-from flask import render_template
-from flask import json
-from urllib.request import urlopen
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 
-app = Flask(__name__)  #com1                                                                                                             
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'  # Clé secrète pour les sessions
+app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 # Fonction pour créer une clé "authentifie" dans la session utilisateur
 def est_authentifie():
@@ -22,7 +18,7 @@ def lecture():
         # Rediriger vers la page d'authentification si l'utilisateur n'est pas authentifié
         return redirect(url_for('authentification'))
 
-  # Si l'utilisateur est authentifié
+    # Si l'utilisateur est authentifié
     return "<h2>Bravo, vous êtes authentifié</h2>"
 
 @app.route('/authentification', methods=['GET', 'POST'])
@@ -39,55 +35,55 @@ def authentification():
 
     return render_template('formulaire_authentification.html', error=False)
 
-@app.route('/fiche_client/<int:post_id>')
-def Readfiche(post_id):
+@app.route('/fiche_livre/<int:post_id>')
+def lire_fiche_livre(post_id):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM clients WHERE id = ?', (post_id,))
+    cursor.execute('SELECT * FROM livres WHERE id = ?', (post_id,))
     data = cursor.fetchall()
     conn.close()
     # Rendre le template HTML et transmettre les données
-    return render_template('read_data.html', data=data)
+    return render_template('read_livre.html', data=data)
     
-@app.route('/fiche_nom/<string:client_name>')
-def Readfiche1(client_name):
+@app.route('/fiche_titre/<string:titre>')
+def lire_fiche_titre(titre):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM clients WHERE UPPER(nom) = UPPER(?)', (client_name,))
+    cursor.execute('SELECT * FROM livres WHERE UPPER(titre) = UPPER(?)', (titre,))
     data = cursor.fetchall()
     conn.close()
     # Rendre le template HTML et transmettre les données
-    return render_template('read_data.html', data=data)
+    return render_template('read_livre.html', data=data)
 
-
-@app.route('/consultation/')
-def ReadBDD():
+@app.route('/consultation_livres/')
+def consulter_livres():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM clients;')
+    cursor.execute('SELECT * FROM livres;')
     data = cursor.fetchall()
     conn.close()
-    return render_template('read_data.html', data=data)
+    return render_template('read_livre.html', data=data)
 
-@app.route('/enregistrer_client', methods=['GET'])
-def formulaire_client():
-    return render_template('formulaire.html')  # afficher le formulaire
+@app.route('/enregistrer_livre', methods=['GET'])
+def formulaire_livre():
+    return render_template('formulaire_livre.html')  # afficher le formulaire
 
-@app.route('/enregistrer_client', methods=['POST'])
-def enregistrer_client():
-    nom = request.form['nom']
-    prenom = request.form['prenom']
+@app.route('/enregistrer_livre', methods=['POST'])
+def enregistrer_livre():
+    titre = request.form['titre']
+    auteur = request.form['auteur']
+    annee_publication = request.form['annee_publication']
+    genre = request.form['genre']
 
-    
     # Connexion à la base de données
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
-    # Exécution de la requête SQL pour insérer un nouveau client
-    cursor.execute('INSERT INTO clients (created, nom, prenom, adresse) VALUES (?, ?, ?, ?)', (1002938, nom, prenom, "ICI"))
+    # Exécution de la requête SQL pour insérer un nouveau livre
+    cursor.execute('INSERT INTO livres (titre, auteur, annee_publication, genre) VALUES (?, ?, ?, ?)', (titre, auteur, annee_publication, genre))
     conn.commit()
     conn.close()
-    return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
-                                                                                                                                       
+    return redirect('/consultation_livres/')  # Rediriger vers la page de consultation des livres après l'enregistrement
+
 if __name__ == "__main__":
-  app.run(debug=True)
+    app.run(debug=True)
