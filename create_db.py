@@ -7,14 +7,16 @@ with open('schema.sql') as f:
 
 cur = connection.cursor()
 
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('DUPONT', 'Emilie', '123, Rue des Lilas, 75001 Paris'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('LEROUX', 'Lucas', '456, Avenue du Soleil, 31000 Toulouse'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('MARTIN', 'Amandine', '789, Rue des Érables, 69002 Lyon'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('TREMBLAY', 'Antoine', '1010, Boulevard de la Mer, 13008 Marseille'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('LAMBERT', 'Sarah', '222, Avenue de la Liberté, 59000 Lille'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('GAGNON', 'Nicolas', '456, Boulevard des Cerisiers, 69003 Lyon'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('DUBOIS', 'Charlotte', '789, Rue des Roses, 13005 Marseille'))
-cur.execute("INSERT INTO clients (nom, prenom, adresse) VALUES (?, ?, ?)",('LEFEVRE', 'Thomas', '333, Rue de la Paix, 75002 Paris'))
+cur.execute("INSERT INTO livres (titre, auteur, année_publication, genre) VALUES (?, ?, ?, ?)",
+            ('Titre du livre 1', 'Auteur du livre 1', 2020, 'Genre 1'))
+cur.execute("INSERT INTO livres (titre, auteur, année_publication, genre) VALUES (?, ?, ?, ?)",
+            ('Titre du livre 2', 'Auteur du livre 2', 2018, 'Genre 2'))
+cur.execute("INSERT INTO livres (titre, auteur, année_publication, genre) VALUES (?, ?, ?, ?)",
+            ('Titre du livre 3', 'Auteur du livre 3', 2015, 'Genre 1'))
+cur.execute("INSERT INTO livres (titre, auteur, année_publication, genre) VALUES (?, ?, ?, ?)",
+            ('Titre du livre 4', 'Auteur du livre 4', 2019, 'Genre 3'))
+cur.execute("INSERT INTO livres (titre, auteur, année_publication, genre) VALUES (?, ?, ?, ?)",
+            ('Titre du livre 5', 'Auteur du livre 5', 2021, 'Genre 2'))
 
 connection.commit()
 connection.close()
